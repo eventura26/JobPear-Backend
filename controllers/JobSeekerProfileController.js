@@ -1,4 +1,5 @@
 const { JobSeekerProfile } = require("../models");
+const { User } = require("../models")
 
 const findAllProfiles = async (req, res) =>{
   try{
@@ -9,21 +10,25 @@ const findAllProfiles = async (req, res) =>{
   }
 }
 
-const getProfile= async (req, res) => {
+const getProfile = async (req, res) => {
   try {
-    const profileId = req.params.profile_id;
-    const profile = await JobSeekerProfile.findByPk(profileId, {
+    const userId = req.params.user_id;
+    const profile = await JobSeekerProfile.findOne({
+      where: { user_id: userId },
       include: [{ model: User }],
     });
+
     if (!profile) {
       return res.status(404).json({ error: "Profile not found" });
     }
+
     res.json({ success: true, profile });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
   }
 };
+
 
 const createProfile = async (req, res) => {
   const {
@@ -104,8 +109,8 @@ const updateProfile = async (req, res) => {
 
 const deleteProfile = async (req, res) => {
   try {
-    const profileId = req.params.profile_id;
-    const profile = await JobSeekerProfile.findByPk(profileId);
+    const userId = req.params.user_id;
+    const profile = await JobSeekerProfile.findOne({ where: { user_id: userId } });
 
     if (!profile) {
       return res.status(404).json({ error: "Profile not found" });
@@ -118,6 +123,7 @@ const deleteProfile = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+
 
 module.exports = { 
   createProfile, 
