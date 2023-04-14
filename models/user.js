@@ -20,6 +20,14 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
+      User.hasMany(models.Swipe, { as: 'SwipesGiven', foreignKey: 'swiper_id' });
+      User.hasMany(models.Swipe, { as: 'SwipesReceived', foreignKey: 'swiped_id' });
+      User.hasMany(models.Conversation, { as: 'Conversations1', foreignKey: 'user1_id' });
+      User.hasMany(models.Conversation, { as: 'Conversations2', foreignKey: 'user2_id' });
+      User.hasMany(models.Message, { as: 'SentMessages', foreignKey: 'sender_id' });
+      User.hasMany(models.Message, { as: 'ReceivedMessages', foreignKey: 'receiver_id' });
+
+
     }
   }
   User.init({

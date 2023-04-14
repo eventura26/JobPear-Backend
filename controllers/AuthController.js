@@ -64,9 +64,27 @@ const CheckSession = async (req, res) => {
   res.send(payload);
 };
 
+const DeleteUser = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.params.user_id);
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    await user.destroy();
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
 module.exports = {
   Login,
   Register,
   UpdatePassword,
   CheckSession,
+  DeleteUser
 };

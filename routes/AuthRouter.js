@@ -16,5 +16,5 @@ router.get(
   middleware.verifyToken,
   controller.CheckSession
 )
-
+router.delete('/:id/delete', controller.DeleteUser)
 module.exports = router

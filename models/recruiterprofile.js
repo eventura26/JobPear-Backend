@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
       type: DataTypes.INTEGER,
+      allowNull: true,
       reference: {
         model: "users",
         key: "id",

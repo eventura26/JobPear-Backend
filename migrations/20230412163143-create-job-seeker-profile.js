@@ -10,13 +10,14 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       user_id: {
-        allowNull: false,
+        allowNull: true,
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
         type: Sequelize.INTEGER,
         reference: {
           model: "users",
-          key: "id"
+          key: "id", 
+
         }
       },
       currently_employed: {
