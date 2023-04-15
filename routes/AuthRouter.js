@@ -17,4 +17,5 @@ router.get(
   controller.CheckSession
 )
 router.delete('/:id/delete', controller.DeleteUser)
+router.get("/:user_id/profile-type", controller.GetUserProfileType);
 module.exports = router

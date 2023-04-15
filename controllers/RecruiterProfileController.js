@@ -83,7 +83,7 @@ const updateProfile = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const profile = await JobSeekerProfile.findOne({
+    const profile = await RecruiterProfile.findOne({
       where: { user_id: id }
     });
 

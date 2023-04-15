@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, RecruiterProfile, JobSeekerProfile } = require("../models");
 const middleware = require("../middleware");
 
 const Login = async (req, res) => {
@@ -66,7 +66,7 @@ const CheckSession = async (req, res) => {
 
 const DeleteUser = async (req, res) => {
   try {
-    const user = await User.findByPk(req.params.user_id);
+    const user = await User.findByPk(req.params.User.id);
 
     if (!user) {
       return res.status(404).json({ msg: "User not found" });
@@ -81,10 +81,30 @@ const DeleteUser = async (req, res) => {
   }
 };
 
+const GetUserProfileType = async (req, res) => {
+  try {
+    const user_id = req.params.user_id;
+    const recruiterProfile = await RecruiterProfile.findOne({ where: { user_id } });
+    const jobSeekerProfile = await JobSeekerProfile.findOne({ where: { user_id } });
+
+    if (recruiterProfile) {
+      return res.json({ profileType: "recruiter", profile: recruiterProfile });
+    } else if (jobSeekerProfile) {
+      return res.json({ profileType: "jobseeker", profile: jobSeekerProfile });
+    } else {
+      return res.json({ profileType: "none", profile: null });
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
 module.exports = {
   Login,
   Register,
   UpdatePassword,
   CheckSession,
-  DeleteUser
+  DeleteUser,
+  GetUserProfileType
 };
